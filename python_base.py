@@ -40,7 +40,9 @@
     x if y else z                                # 三元选择表达式
     x and y, x or y, not x                       # 逻辑与、逻辑或、逻辑非
     x in y, x not in y                           # 成员对象测试
+    # 是成员运算符，用于检查某个值 x 是否包含在容器 y 中。容器 y 可以是列表、元组、集合、字典等可迭代对象或者映射类型。
     x is y, x is not y                           # 对象实体测试
+    # 身份运算符，用于检查两个对象 x 和 y 是否引用同一个内存地址的对象。
     x<y, x<=y, x>y, x>=y, x==y, x!=y             # 大小比较，集合子集或超集值相等性操作符
     1 < a < 3                                    # Python中允许连续比较
     x|y, x&y, x^y                                # 位或、位与、位异或
@@ -48,17 +50,20 @@
     +, -, *, /, //, %, **                        # 真除法、floor除法：返回不大于真除法结果的整数值、取余、幂运算
     -x, +x, ~x                                   # 一元减法、识别、按位求补（取反）
     x[i], x[i:j:k]                               # 索引、分片
+    # start 是起始索引（包含在结果中）。stop 是结束索引（不包含在结果中）。step 是步长（默认为 1）。
     int(3.14), float(3)                          # 强制类型转换
     
 #-- 整数可以利用bit_length函数测试所占的位数
     a = 1;       a.bit_length()    # 1
     a = 1024;    a.bit_length()    # 11
+    # 是 int 类型的方法，用于返回一个整数的二进制表示中所需的比特位数。它会忽略数值的符号位（最高位的正负标志位），只计算数值的有效位数。
     
 #-- repr和str显示格式的区别
     """
     repr格式：默认的交互模式回显，产生的结果看起来它们就像是代码。
     str格式：打印语句，转化成一种对用户更加友好的格式。
     """
+    # 两个用于转换对象为字符串的内置函数
     
 #-- 数字相关的模块
     # math模块
@@ -67,6 +72,7 @@
         from decimal import Decimal
         Decimal("0.01") + Decimal("0.02")        # 返回Decimal("0.03")
         decimal.getcontext().prec = 4            # 设置全局精度为4 即小数点后边4位
+        #上方注释错误：更改默认精度值后，进行“计算”可保留对应精度值
     # Fraction模块：分数模块
         from fractions import Fraction
         x = Fraction(4, 6)                       # 分数类型 4/6
@@ -143,7 +149,8 @@
     
 #-- 内置str处理函数：
     str1 = "stringobject"
-    str1.upper(); str1.lower(); str1.swapcase(); str1.capitalize(); str1.title()        # 全部大写，全部小写、大小写转换，首字母大写，每个单词的首字母都大写
+    str1.upper(); str1.lower(); str1.swapcase(); str1.capitalize(); str1.title()        
+    # 全部大写，全部小写、大小写转换，首字母大写，每个单词的首字母都大写
     str1.ljust(width)                       # 获取固定长度，左对齐，右边不够用空格补齐
     str1.rjust(width)                       # 获取固定长度，右对齐，左边不够用空格补齐
     str1.center(width)                      # 获取固定长度，中间对齐，两边不够用空格补齐
@@ -154,11 +161,11 @@
     #上面所有方法都可用index代替，不同的是使用index查找不到会抛异常，而find返回-1
     str1.replace('old','new')               # 替换函数，替换old为new，参数中可以指定maxReplaceTimes，即替换指定次数的old为new
     str1.strip();                           # 默认删除空白符
-    str1.strip('d');                        # 删除str1字符串中开头、结尾处，位于 d 删除序列的字符
+    str1.strip('d');                        # 删除str1字符串中开头、结尾处，d字符
     str1.lstrip();
-    str1.lstrip('d');                       # 删除str1字符串中开头处，位于 d 删除序列的字符
+    str1.lstrip('d');                       # 删除str1字符串中开头处，d字符
     str1.rstrip();
-    str1.rstrip('d')                        # 删除str1字符串中结尾处，位于 d 删除序列的字符
+    str1.rstrip('d')                        # 删除str1字符串中结尾处，d字符
     str1.startswith('start')                # 是否以start开头
     str1.endswith('end')                    # 是否以end结尾
     str1.isalnum(); str1.isalpha(); str1.isdigit(); str1.islower(); str1.isupper()      # 判断字符串是否全为字符、数字、小写、大写
