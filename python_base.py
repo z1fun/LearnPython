@@ -36,6 +36,7 @@
     
 #-- 数字的表达式操作符
     yield x                                      # 生成器函数发送协议
+
     lambda args: expression                      # 生成匿名函数
     x if y else z                                # 三元选择表达式
     x and y, x or y, not x                       # 逻辑与、逻辑或、逻辑非
@@ -247,6 +248,7 @@
     L.append(obj)                                     # 向列表的尾部添加数据，比如append(2)，添加元素2
     L.insert(index, obj)                              # 向列表的指定index位置添加数据，index及其之后的数据后移
     L.extend(interable)                               # 通过添加iterable中的元素来扩展列表，比如extend([2])，添加元素2，注意和append的区别
+    #append视为单个元素到列表中，extend，将可迭代对象中的所有元素添加到列表的末尾。
     L.index(value, [start, [stop]])                   # 返回列表中值value的第一个索引
     L.pop([index])                                    # 删除并返回index处的元素，默认为删除并返回最后一个元素
     L.remove(value)                                   # 删除列表中的value值，只删除第一次出现的value的值
@@ -269,6 +271,7 @@
     D = dict(name = 'tom', age = 12)                  # {'age': 12, 'name': 'tom'}
     D = dict([('name', 'tom'), ('age', 12)])          # {'age': 12, 'name': 'tom'}
     D = dict(zip(['name', 'age'], ['tom', 12]))       # {'age': 12, 'name': 'tom'}
+    #zip() 函数用于将多个可迭代对象中的对应元素组合成元组，返回一个迭代器。
     D.keys(); D.values(); D.items()                   # 字典键、值以及键值对
     D.get(key, default)                               # get函数
     D.update(D_other)                                 # 合并字典，如果存在相同的键值，D_other的数据会覆盖掉D的数据
@@ -315,6 +318,7 @@
     fp.readable()                           # 是否可读
     fp.write(str)                           # 把str写到文件中，write()并不会在str后加上一个换行符
     fp.writelines(seq)                      # 把seq的内容全部写到文件中(多行一次性写入)
+    #seq: 包含字符串的可迭代对象，如果需要换行符，需要自己添加
     fp.writeable()                          # 是否可写
     fp.close()                              # 关闭文件。
     fp.flush()                              # 把缓冲区的内容写入硬盘
@@ -324,6 +328,7 @@
     fp.next()                               # 返回下一行，并将文件操作标记位移到下一行。把一个file用于for … in file这样的语句时，就是调用next()函数来实现遍历的。
     fp.seek(offset[,whence])                # 将文件打开操作标记移到offset的位置。whence为0表示从头开始计算，1表示以当前位置为原点计算。2表示以文件末尾为原点进行计算。
     fp.seekable()                           # 是否可以seek
+    #该方法返回一个布尔值，表示文件对象支持随机访问（seek()方法）。
     fp.truncate([size])                     # 把文件裁成规定的大小，默认的是裁到当前文件操作标记的位置。
     for line in open('data'): 
         print(line)                         # 使用for语句，比较适用于打开比较大的文件
@@ -414,12 +419,19 @@
         print(index, team)                            # 输出0, Packers \n 1, 49ers \n ......
     
 #-- 生成器表达式
-    G = (sum(row) for row in M)                       # 使用小括号可以创建所需结果的生成器generator object
+    G = (sum(row) for row in M)                       # 使用小括号可以创建所需结果的生成器 generator object
+    #生成器表达式会返回一个生成器对象，而不是立即计算结果。这意味着，G 实际上是一个生成器对象，
+    #你可以在需要时使用 next() 函数逐个获取生成器中的值，或者通过迭代来遍历生成器中的所有值。
     next(G), next(G), next(G)                         # 输出(6, 15, 24)
     G = {sum(row) for row in M}                       # G = {6, 15, 24} 解析语法还可以生成集合和字典
     G = {i:sum(M[i]) for i in range(3)}               # G = {0: 6, 1: 15, 2: 24}
 
 #-- 文档字符串:出现在Module的开端以及其中函数或类的开端 使用三重引号字符串
+#模块是py文件，没有特殊之处。包是目录，包中包含__init__.py文件，剩下为模块文件
+# 要使用模块，可以通过import语句将其导入到程序中 
+# import my_package.my_module 
+# 或者使用from语句来导入指定的模块或成员。
+# from my_package import my_module
     """
     module document
     """
@@ -444,9 +456,14 @@
     """
 
 #-- 列表解析 in成员关系测试 map sorted zip enumerate内置函数等都使用了迭代协议
+#迭代协议要求对象实现两个方法,可用于for循环遍历
+# __iter__() 方法：返回一个迭代器对象，用于支持迭代操作。
+# __next__() 方法：返回迭代器中的下一个元素，如果没有元素了则抛出 StopIteration 异常。
     'first line' in open('test.txt')   # in测试 返回True或False
     list(map(str.upper, open('t')))    # map内置函数
+    #map() 函数是 Python 内置函数之一，用于将一个函数应用到可迭代对象的每个元素上，返回一个迭代器对象。
     sorted(iter([2, 5, 8, 3, 1]))      # sorted内置函数
+    #iter用于创建一个迭代器对象
     list(zip([1, 2], [3, 4]))          # zip内置函数 [(1, 3), (2, 4)]
 
 #-- del语句: 手动删除某个变量
@@ -492,6 +509,10 @@
     local(functin) --> encloseing function locals --> global(module) --> build-in(python)
     说明:以下边的函数maker为例 则相对于action而言 X为Local N为Encloseing
     """
+    #Local（局部）：首先搜索当前作用域内的局部变量，即在函数内部定义的变量。
+    #Enclosing（嵌套）：如果在函数内部有嵌套函数，Python 会在嵌套函数的外层函数中搜索变量。
+    #Global（全局）：如果变量不是局部变量，Python 将在全局作用域中搜索变量，即在模块级别定义的变量。
+    #Built-in（内置）：如果变量既不是局部变量也不是全局变量，Python 将在内置作用域中搜索变量，即 Python 内置的函数名和常量名。
 
 #-- 嵌套函数举例:工厂函数
     def maker(N):
@@ -540,8 +561,10 @@
 
 #-- 可变参数匹配: * 和 **
     def f(*args): print(args)          # 在元组中收集不匹配的位置参数
+    # 在元组中收集任意的位置参数
     f(1, 2, 3)                         # 输出(1, 2, 3)
     def f(**args): print(args)         # 在字典中收集不匹配的关键字参数
+    # 在元组中收集任意的位置参数
     f(a = 1, b = 2)                    # 输出{'a':1, 'b':2}
     def f(a, *b, **c): print(a, b, c)  # 两者混合使用
     f(1, 2, 3, x=4, y=5)               # 输出1, (2, 3), {'x':4, 'y':5}
@@ -660,6 +683,7 @@
     
     """集合类操作"""
     basestring()                        # str和unicode的超类，不能直接调用，可以用作isinstance判断
+    #isinstance(obj, basestring) Python 3 中，basestring 被移除
     format(value [, format_spec])       # 格式化输出字符串，格式化的参数顺序从0开始，如“I am {0},I like {1}”
     enumerate(sequence[, start=0])      # 返回一个可枚举的对象，注意它有第二个参数
     iter(obj[, sentinel])               # 生成一个对象的迭代器，第二个参数表示分隔符
@@ -687,7 +711,8 @@
     # 在 Built-in Functions 里有一句话是这样写的：Consider using the raw_input() function for general input from users.
     raw_input([prompt])                 # 设置输入，输入都是作为字符串处理
     open(name[, mode[, buffering]])     # 打开文件，与file有什么不同？推荐使用open
-    
+    #file为open的别名，Python 3 中，file() 函数已经被移除了，只能使用 open() 函数来打开文件。
+
     """其他"""
     callable(object)                    # 检查对象object是否可调用
     classmethod(func)                   # 用来说明这个func是个类方法
@@ -733,13 +758,19 @@
         z = zip(a, b)                   # 压缩：[(1, "a"), (2, "b"), (3, "c")]
         zip(*z)                         # 解压缩：[(1, 2, 3), ("a", "b", "c")]
     unicode(string, encoding, errors)   # 将字符串string转化为unicode形式，string为encoded string。
-
+    #encoding 是字符串的编码格式。
     
 """模块Moudle----模块Moudle----模块Moudle----模块Moudle----模块Moudle----模块Moudle----模块Moudle----模块Moudle----模块Moudle----模块Moudle----模块Moudle"""
 
 #-- Python模块搜索路径:
     """
     (1)程序的主目录    (2)PYTHONPATH目录 (3)标准链接库目录 (4)任何.pth文件的内容
+    Python 导入的优先级顺序如下：
+    内置模块
+    sys.path 中指定的路径
+    当前目录
+    环境变量 PYTHONPATH 指定的路径
+    安装的第三方库
     """
     
 #-- 查看全部的模块搜索路径
@@ -763,6 +794,7 @@
 #-- 重载模块reload: 这是一个内置函数 而不是一条语句
     from imp import reload
     reload(module)
+    # Python 3 中，imp 模块已经被废弃，建议使用 importlib 模块来代替。
     
 #-- 模块的包导入:使用点号(.)而不是路径(dir1\dir2)进行导入
     import dir1.dir2.mod                # d导入包(目录)dir1中的包dir2中的mod模块 此时dir1必须在Python可搜索路径中
@@ -809,7 +841,7 @@
     
 
 """类与面向对象----类与面向对象----类与面向对象----类与面向对象----类与面向对象----类与面向对象----类与面向对象----类与面向对象----类与面向对象----类与面向对象"""
-
+#OOP
 #-- 最普通的类
     class C1(C2, C3):
         spam = 42                       # 数据属性
@@ -827,6 +859,7 @@
             print("hello world")
 
 #-- 子类扩展超类: 尽量调用超类的方法
+# 即子类扩展父类
     class Manager(Person):
         def giveRaise(self, percent, bonus = .10):
             self.pay = int(self.pay*(1 + percent + bonus))     # 不好的方式 复制粘贴超类代码
@@ -857,6 +890,8 @@
     # (3)上述的两种方法还都可以定义实例对象 实际上可以利用@装饰器语法生成不能定义的抽象超类
         from abc import ABCMeta, abstractmethod
         class Super(metaclass = ABCMeta):
+        #指定ABCMeta为Super的元类，元类元类是类的模板，它控制着如何创建类的实例。
+        #继承type元类，并实现__init__方法，便可创建元类
             @abstractmethod
             def action(self): pass
         x = Super()                     # 返回 TypeError: Can't instantiate abstract class Super with abstract methods action
@@ -986,6 +1021,7 @@
         cmeth = classmethod(cmeth)
     
 #-- 类修饰器:是它后边的类的运行时的声明 由@符号以及后边紧跟的"元函数"(metafunction)组成
+#类修饰器可以在类定义时对类进行修改、扩展或定制
         def decorator(aClass):.....
         @decorator
         class C(object):....
@@ -1068,8 +1104,8 @@
         def __getattr__(self, attr):          # 定义当获取类的属性时的返回值
             if attr=='age':
                 return 25                     # 当获取age属性时返回25
-        raise AttributeError('object has no attribute: %s' % attr)
-        # 注意: 只有当属性不存在时 才会调用该方法 且该方法默认返回None 需要在函数最后引发异常
+            raise AttributeError('object has no attribute: %s' % attr)
+            # 注意: 只有当属性不存在时 才会调用该方法 且该方法默认返回None 需要在函数最后引发异常
     s = Student()
     s.age                                     # s中age属性不存在 故调用__getattr__方法 返回25
     # (5)__call__方法: 定制类的'可调用'性
@@ -1248,11 +1284,12 @@
     b = b'...'                    # 构建一个bytes对象，不可变对象
     s[0], b[0]                    # 返回('.', 113)
     s[1:], b[1:]                  # 返回('..', b'..')
-    B = B"""
+    B = B"""                      
         xxxx
         yyyy
         """
-    # B = b'\nxxxx\nyyyy\n'
+    # B = b'\nxxxx\nyyyy\n' 
+    # B的作用，可以输入换行符等
     # 编码，将str字符串转化为其raw bytes形式：
         str.encode(encoding = 'utf-8', errors = 'strict')
         bytes(str, encoding)
@@ -1311,6 +1348,7 @@
 """其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他----其他"""
 
 #-- Python实现任意深度的赋值 例如a[0] = 'value1'; a[1][2] = 'value2'; a[3][4][5] = 'value3'
+# 无线嵌套的字典
     class MyDict(dict):
         def __setitem__(self, key, value):                 # 该函数不做任何改动 这里只是为了输出
             print('setitem:', key, value, self)
@@ -1321,7 +1359,9 @@
             if item not in self:                           # 如果a[1]不存在 则需要新建一个dict 并使得a[1] = dict
                 temp = MyDict()                            # 新建的dict: temp
                 super().__setitem__(item, temp)            # 赋值a[1] = temp
+                #创建a[1]
                 return temp                                # 返回temp 使得temp[2] = value有效
+                #返回a[1]
             return super().__getitem__(item)               # 如果a[1]存在 则直接返回a[1]
     # 例子:
         test = MyDict()
@@ -1341,3 +1381,4 @@
     lists[1].append(6)                                     # 结果为[[3], [6], []]
     lists[2].append(9)                                     # 结果为[[3], [6], [9]]
     lists = [[[] for j in range(4)] for i in range(3)]     # 3行4列，且每一个元素为[]
+    #从前往后看，前面的为内循环，后面的为外循环，内循环创建四个空列表作为列表，外循环创建了三个这样的列表
