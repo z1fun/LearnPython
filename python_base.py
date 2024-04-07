@@ -234,6 +234,7 @@
     L = [[1, 2], 'string', {}]                        # 嵌套列表
     L = list('spam')                                  # 列表初始化
     L = list(range(0, 4))                             # 列表初始化
+    #TODO
     list(map(ord, 'spam'))                            # 列表解析
     len(L)                                            # 求列表长度
     L.count(value)                                    # 求列表中某个值的个数
